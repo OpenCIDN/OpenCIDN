@@ -57,12 +57,9 @@ type flagpole struct {
 	TokenPublicKeyFile string
 	TokenURL           string
 
-	BlobNoRedirectSize             int
 	BlobNoRedirectMaxSizePerSecond int
 	BlobCacheDuration              time.Duration
 	ForceBlobNoRedirect            bool
-	FallbackRedirect               bool
-	BigCacheNoLimit                bool
 
 	Concurrency int
 
@@ -108,12 +105,9 @@ func NewCommand() *cobra.Command {
 	cmd.Flags().StringVar(&flags.TokenPublicKeyFile, "token-public-key-file", flags.TokenPublicKeyFile, "Token public key file")
 	cmd.Flags().StringVar(&flags.TokenURL, "token-url", flags.TokenURL, "Token url")
 
-	cmd.Flags().IntVar(&flags.BlobNoRedirectSize, "blob-no-redirect-size", flags.BlobNoRedirectSize, "Less than or equal to no redirect")
 	cmd.Flags().IntVar(&flags.BlobNoRedirectMaxSizePerSecond, "blob-no-redirect-max-size-per-second", flags.BlobNoRedirectMaxSizePerSecond, "Maximum size per second for no redirect")
 	cmd.Flags().DurationVar(&flags.BlobCacheDuration, "blob-cache-duration", flags.BlobCacheDuration, "Blob cache duration")
 	cmd.Flags().BoolVar(&flags.ForceBlobNoRedirect, "force-blob-no-redirect", flags.ForceBlobNoRedirect, "Force blob no redirect")
-	cmd.Flags().BoolVar(&flags.FallbackRedirect, "fallback-redirect", flags.FallbackRedirect, "Fallback redirect")
-	cmd.Flags().BoolVar(&flags.BigCacheNoLimit, "big-cache-no-limit", flags.BigCacheNoLimit, "Big cache no limit")
 
 	cmd.Flags().IntVar(&flags.Concurrency, "concurrency", flags.Concurrency, "Concurrency to source")
 
@@ -159,13 +153,10 @@ func runE(ctx context.Context, flags *flagpole) error {
 	blobsOpts = append(blobsOpts,
 		blobs.WithCache(sdcache),
 		blobs.WithLogger(logger),
-		blobs.WithBlobNoRedirectSize(flags.BlobNoRedirectSize),
 		blobs.WithBlobNoRedirectMaxSizePerSecond(flags.BlobNoRedirectMaxSizePerSecond),
 		blobs.WithBlobCacheDuration(flags.BlobCacheDuration),
 		blobs.WithForceBlobNoRedirect(flags.ForceBlobNoRedirect),
-		blobs.WithFallbackRedirect(flags.FallbackRedirect),
 		blobs.WithConcurrency(flags.Concurrency),
-		blobs.WithBigCacheNoLimit(flags.BigCacheNoLimit),
 	)
 
 	if flags.BigStorageURL != "" && flags.BigStorageSize > 0 {
