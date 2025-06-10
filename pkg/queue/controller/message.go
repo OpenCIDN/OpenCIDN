@@ -377,7 +377,7 @@ func (mc *MessageController) List(req *restful.Request, resp *restful.Response) 
 
 	resp.Header().Set("Transfer-Encoding", "chunked")
 	resp.Header().Set("X-Accel-Buffering", "no")
-	resp.Header().Set("Content-Type", "text/event-stream")
+	resp.Header().Set("Content-Type", "application/x-ndjson")
 	resp.Header().Set("Cache-Control", "no-cache")
 	resp.Header().Set("Connection", "keep-alive")
 	resp.WriteHeader(http.StatusOK)
@@ -438,7 +438,7 @@ func (mc *MessageController) Get(req *restful.Request, resp *restful.Response) {
 
 	resp.Header().Set("Transfer-Encoding", "chunked")
 	resp.Header().Set("X-Accel-Buffering", "no")
-	resp.Header().Set("Content-Type", "text/event-stream")
+	resp.Header().Set("Content-Type", "application/x-ndjson")
 	resp.Header().Set("Cache-Control", "no-cache")
 	resp.Header().Set("Connection", "keep-alive")
 	resp.WriteHeader(http.StatusOK)

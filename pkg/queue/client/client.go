@@ -146,7 +146,8 @@ func (c *MessageClient) WatchList(ctx context.Context) (chan MessageResponse, er
 		return nil, handleErrorResponse(resp)
 	}
 
-	if resp.Header.Get("Content-Type") != "text/event-stream" {
+	ct := resp.Header.Get("Content-Type")
+	if ct != "text/event-stream" && ct != "application/x-ndjson" {
 		defer resp.Body.Close()
 
 		decoder := json.NewDecoder(resp.Body)
@@ -231,7 +232,8 @@ func (c *MessageClient) Watch(ctx context.Context, messageID int64) (chan Messag
 		return nil, handleErrorResponse(resp)
 	}
 
-	if resp.Header.Get("Content-Type") != "text/event-stream" {
+	ct := resp.Header.Get("Content-Type")
+	if ct != "text/event-stream" && ct != "application/x-ndjson" {
 		defer resp.Body.Close()
 
 		decoder := json.NewDecoder(resp.Body)
